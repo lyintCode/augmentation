@@ -27,5 +27,8 @@ RUN chown -R appuser:appuser /app
 # Запускаем контейнер от обычного пользователя
 USER appuser
 
+# Скрипт для запуска приложения
+ENTRYPOINT ["/app/entrypoint.sh"]
+
 # Команда для запуска приложения
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

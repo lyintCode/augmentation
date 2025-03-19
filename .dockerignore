@@ -22,7 +22,6 @@ Thumbs.db
 *.exe
 *.com
 *.bat
-*.sh
 *.jar
 *.war
 *.ear

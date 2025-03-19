@@ -5,6 +5,7 @@ services:
       args:
         - USER_ID=${UID:-1000}
         - GROUP_ID=${GID:-1000}
+      network: host
     image: augmentation:latest
     restart: always
     ports:
