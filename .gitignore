@@ -1,0 +1,14 @@
+# Python
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/__pycache__/
+
+# Virtual Environments
+.venv/
+
+# Env files
+.env
+
+# Migrations
+migrations/versions/

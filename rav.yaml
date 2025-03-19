@@ -1,0 +1,5 @@
+scripts:
+  fastapi:
+    - uvicorn app.main:app --reload
+  migrations:
+    - alembic revision --autogenerate -m "" && alembic upgrade head
