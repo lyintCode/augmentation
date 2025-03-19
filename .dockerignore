@@ -1,38 +1,30 @@
+# files
 __pycache__
 *.py[cod]
 *~
-.venv/
 *.log
-*.sql
-*.sqlite3
-*.db
+README.md
+
+# folders
 .vscode/
-.DS_Store
-Thumbs.db
 .cache/
+
+# git
 .git/
 .gitignore
-*.bak
-*.old
-*.swp
-*.swo
-*.tmp
-*.pid
-*.class
-*.exe
-*.com
-*.bat
-*.jar
-*.war
-*.ear
-*.zip
-*.tar.gz
-*.rar
-*.7z
+
+# Virtual Env
+.venv/
+
+# Docker related files
 docker/
 Dockerfile
 .dockerignore
-README.md
 docker-compose.yml
+
+# Pytest
 .pytest_cache/
 htmlcov/
+
+# Minio
+.minio_data
