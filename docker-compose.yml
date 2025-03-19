@@ -15,20 +15,21 @@ services:
       - redis
       - db
     environment:
-      - REDIS_HOST=${REDIS_HOST}
+      - DATABASE_URL=${DATABASE_URL}
     networks:
       - app_network
 
   db:
     image: postgres:15
     restart: always
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
     environment:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./docker/postgresql/conf.d/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+      - ./docker/postgresql/conf.d/postgresql.conf:/etc/postgresql/postgresql.conf
     networks:
       - app_network
 
