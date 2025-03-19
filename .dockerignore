@@ -34,3 +34,5 @@ Dockerfile
 .dockerignore
 README.md
 docker-compose.yml
+.pytest_cache/
+htmlcov/

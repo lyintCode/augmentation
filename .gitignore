@@ -12,3 +12,7 @@
 
 # Migrations
 migrations/versions/
+
+# Pytest
+.pytest_cache/
+htmlcov/
