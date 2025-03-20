@@ -1,11 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
-import os
+from app.config import settings
 
-# Получаем строку подключения из переменной окружения
-DATABASE_URL = "postgresql+psycopg2://admin:admin@db/augmentation"
+DATABASE_URL = settings.DATABASE_URL
 
-# Создаём движок SQLAlchemy
 engine = create_engine(DATABASE_URL)
 
 try:

@@ -4,7 +4,6 @@ from app.schemas import UserLogin, UserCreate, Token
 from app.auth import authenticate_user, create_access_token
 from app.crud import create_user, get_user_by_email
 from app.database import get_db
-from app.models import User
 
 router = APIRouter()
 

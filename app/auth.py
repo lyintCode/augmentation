@@ -4,7 +4,6 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException, status
-from passlib.context import CryptContext
 from app.models import User
 from app.config import settings
 from app.crud import get_user_by_email

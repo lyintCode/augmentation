@@ -16,6 +16,7 @@ services:
       - db
     environment:
       - DATABASE_URL=${DATABASE_URL}
+      - RUN_TESTS=${RUN_TESTS}
     networks:
       - app_network
 

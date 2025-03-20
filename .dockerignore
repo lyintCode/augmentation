@@ -24,7 +24,6 @@ docker-compose.yml
 
 # Pytest
 .pytest_cache/
-htmlcov/
 
 # Minio
 .minio_data

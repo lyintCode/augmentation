@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     DB_NAME: str
@@ -14,8 +14,8 @@ class Settings(BaseSettings):
     MINIO_PASSWORD: str
     MINIO_BUCKET_NAME: str
     CELERY_BROKER_URL: str
+    RUN_TESTS: str
 
-    class Config:
-        env_file = ".env"
+    model_config = SettingsConfigDict(env_file=".env")
 
 settings = Settings()
