@@ -7,9 +7,9 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
-from app.models import User
+from app.models import User, Base
 from app.main import app
-from app.database import get_db, Base
+from app.database import get_db
 from app.crud import create_user
 from app.schemas import UserCreate
 from app.auth import create_access_token

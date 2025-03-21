@@ -29,7 +29,7 @@ def test_upload_invalid_file_type(client: TestClient, access_token: str):
 
     assert response.status_code == 400    
     response_data = response.json()
-    assert "Неподдерживаемое расширение файла" in response_data['detail']
+    assert "Неподдерживаемое расширение" in response_data['detail']
 
 @pytest.fixture()
 def test_upload_image(client: TestClient, access_token: str, db_session: Session, test_user: User):

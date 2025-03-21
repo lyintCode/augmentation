@@ -35,3 +35,6 @@ tests/
 
 # Minio
 minio_data/
+
+# Other
+demo_*.zip
