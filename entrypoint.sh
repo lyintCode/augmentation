@@ -1,14 +1,14 @@
 #!/bin/sh
 
 wait_for_postgres() {
-  echo "Waiting for PostgreSQL to start..."
+  # Функция ожидания полного запуска контейнера postgresql
+  echo "Ожидание запуска PostgreSQL ..."
   until python check_db.py; do
-    echo "Database is not ready yet. Retrying in 2 seconds..."
+    echo "DB еще не готова. Повторная проверка через 2 сек ..."
     sleep 2
   done
 }
 
-# Ожидание полной инициализации postgresql
 wait_for_postgres
 
 # Проверяем, есть ли миграции в папке versions
@@ -20,5 +20,4 @@ fi
 # Применение миграции Alembic
 alembic upgrade head
 
-# Запуск приложения
 exec "$@"

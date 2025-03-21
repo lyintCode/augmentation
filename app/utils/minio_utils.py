@@ -1,6 +1,7 @@
 from fastapi import HTTPException, File
 from minio import Minio
 from minio.error import S3Error
+
 from app.config import settings
 
 BUCKET_NAME = settings.MINIO_BUCKET_NAME
@@ -26,7 +27,7 @@ def upload_to_minio(file_content: File, file_name: str) -> str:
             
         # Проверяем, что file_content не пустой
         if not file_content or file_content.getbuffer().nbytes == 0:
-            raise ValueError("Файл пустой")
+            raise ValueError('Файл пустой')
 
         # Загружаем файл
         minio_client.put_object(
@@ -38,21 +39,21 @@ def upload_to_minio(file_content: File, file_name: str) -> str:
         )
 
         # Генерируем URL
-        img_link = f"http://{MINIO_HOST}/{BUCKET_NAME}/{file_name}"
+        img_link = f'http://{MINIO_HOST}/{BUCKET_NAME}/{file_name}'
 
         return img_link
 
     except Exception as e:
         
-        raise HTTPException(status_code=500, detail=f"MinIO error: {e}")
+        raise HTTPException(status_code=500, detail=f'MinIO error: {e}')
     
-def download_file_from_minio(file_name):
-    """Скачивание файла из MinIO."""
+def download_file_from_minio(file_name: str) -> bytes:
+    """Скачивание файла из MinIO"""
     try:
         # Скачиваем файл
         data = minio_client.get_object(BUCKET_NAME, file_name).read()
         return data
     except S3Error as e:
-        raise Exception(f"MinIO error: {e}")
+        raise Exception(f'MinIO error: {e}')
     except Exception as e:
-        raise Exception(f"Unexpected error: {e}")
+        raise Exception(f'Unexpected error: {e}')

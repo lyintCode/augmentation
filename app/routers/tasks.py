@@ -1,5 +1,8 @@
 import os
 from zipfile import ZipFile
+from typing import List
+from uuid import uuid4
+from tempfile import NamedTemporaryFile
 
 from fastapi import (
     APIRouter, 
@@ -10,9 +13,6 @@ from fastapi import (
     Response
 )
 from sqlalchemy.orm import Session
-from typing import List
-from uuid import uuid4
-from tempfile import NamedTemporaryFile
 from urllib.parse import urlparse
 
 from app.crud import (
@@ -32,7 +32,7 @@ from app.celery import process_image_task
 
 router = APIRouter()
 
-@router.post("/upload", response_model=UploadResponse)
+@router.post('/upload', response_model=UploadResponse)
 def upload_image(
     files: List[UploadFile] = File(...),
     current_user: User = Depends(get_current_user),
@@ -44,10 +44,10 @@ def upload_image(
         # Проверяем расширение файла
         validate_file_extension(file.filename)
 
-        # Генерируем уникальный task_id
+        # Генерируем task_id
         task_id = str(uuid4())
 
-        # Читаем содержимое файла
+        # Содержимое файла
         file_content = file.file.read()
 
         # Добавляем задачу в Celery
@@ -55,9 +55,9 @@ def upload_image(
 
         task_ids.append(task_id)
 
-    return {"message": "Задача создана", "task_ids": task_ids}
+    return {'message': 'Задача создана', 'task_ids': task_ids}
 
-@router.post("/status/{task_id}", response_model=TaskResponse)
+@router.post('/status/{task_id}', response_model=TaskResponse)
 def get_task_status(
     task_id: str,
     db: Session = Depends(get_db),
@@ -66,12 +66,13 @@ def get_task_status(
     """Получить статус выполнения задачи по ID"""
 
     task = get_image_task(db, task_id=task_id)
+
     if not task or task.user_id != current_user.id:
-        raise HTTPException(status_code=404, detail="Задача не найдена")
+        raise HTTPException(status_code=404, detail='Задача не найдена')
     
     return task
 
-@router.post("/history/{user_id}", response_model=List[TaskResponse])
+@router.post('/history/{user_id}', response_model=List[TaskResponse])
 def get_user_history(
     user_id: str,
     db: Session = Depends(get_db),
@@ -80,33 +81,35 @@ def get_user_history(
     """Получить историю обработанных изображений для данного user_id"""
 
     if user_id != current_user.id:
-        raise HTTPException(status_code=403, detail="Ошибка доступа")
+        raise HTTPException(status_code=403, detail='Ошибка доступа')
     
     tasks = get_image_tasks_by_user(db, user_id=user_id)
 
     return tasks
 
-@router.post("/task/{task_id}")
+@router.post('/task/{task_id}')
 def download_task_images(
     task_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
-):
+) -> Response:
     """Скачать изображения по ID задачи в виде zip-архива"""
 
     task = get_image_task(db, task_id=task_id)
     if not task or task.user_id != current_user.id:
-        return HTTPException(status_code=404, detail="Задача не найдена")
+        return HTTPException(status_code=404, detail='Задача не найдена')
     
-    # Создание временного zip файла
-    with NamedTemporaryFile(suffix=".zip", delete=True) as temp_zip:
+    # Создание временного zip
+    with NamedTemporaryFile(suffix='.zip', delete=True) as temp_zip:
         with ZipFile(temp_zip.name, 'w') as zip_file:
+
             # Извлекаем расширение из img_link
             original_file_name = os.path.basename(urlparse(task.img_link).path)
             _, ext = os.path.splitext(original_file_name)
 
-            for suffix in ["original", "rotated", "gray", "scaled"]:
-                file_name = f"{task_id}_{suffix}{ext}"
+            # Скачиваем трансформированные файлы с минио
+            for suffix in ['original', 'rotated', 'gray', 'scaled']:
+                file_name = f'{task_id}_{suffix}{ext}'
                 try:
                     data = download_file_from_minio(file_name)
                     if not data:
@@ -116,12 +119,11 @@ def download_task_images(
                     continue
 
         # Чтение содержимого временного файла
-        with open(temp_zip.name, "rb") as f:
+        with open(temp_zip.name, 'rb') as f:
             zip_data = f.read()
 
-    # Создание потока для скачивания
-    response = Response(zip_data, media_type="application/zip")
-    response.headers["Content-Disposition"] = f'attachment; filename={task_id}.zip'
+    response = Response(zip_data, media_type='application/zip')
+    response.headers['Content-Disposition'] = f'attachment; filename={task_id}.zip'
 
     return response
 

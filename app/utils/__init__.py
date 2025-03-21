@@ -7,10 +7,10 @@ from .file_utils import (
 )
 
 __all__ = [
-    "upload_to_minio", 
-    "download_file_from_minio", 
-    "iterfile",
-    "validate_file_extension",
-    "generate_file_name",
-    "process_image"
+    'upload_to_minio', 
+    'download_file_from_minio', 
+    'iterfile',
+    'validate_file_extension',
+    'generate_file_name',
+    'process_image'
 ]

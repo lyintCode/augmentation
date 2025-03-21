@@ -17,7 +17,7 @@
 /.pytest_cache/
 /htmlcov/
 /.coverage
-test.db
+/test.db
 /tests/results/
 
 # Mypy

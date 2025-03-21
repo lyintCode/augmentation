@@ -1,10 +1,17 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
-from app.config import settings
+from dotenv import load_dotenv
 
-DATABASE_URL = settings.DATABASE_URL
+# Загружаем переменные окружения из .env
+load_dotenv()
 
-engine = create_engine(DATABASE_URL)
+DB_URL = os.getenv('DATABASE_URL')
+if not DB_URL:
+    raise ValueError("DATABASE_URL не задан в .env файле!")
+
+engine = create_engine(DB_URL)
 
 try:
     with engine.connect() as connection:
