@@ -19,7 +19,8 @@ def validate_file_extension(filename: str) -> None:
     """
     Проверяет, что расширение файла допустимо
     """
-    ext = splitext(filename)[1].lower()  # Получаем расширение файла
+    ext = splitext(filename)[1].lower()
+
     if ext not in ALLOWED_EXTENSIONS:
         raise HTTPException(
             status_code=400, 

@@ -17,6 +17,8 @@ migrations/versions/
 .pytest_cache/
 htmlcov/
 .coverage
+test.db
+tests/results/
 
 # Minio
 .minio_data/

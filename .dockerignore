@@ -24,6 +24,8 @@ docker-compose.yml
 
 # Pytest
 .pytest_cache/
+test.db
+tests/
 
 # Minio
-.minio_data
+.minio_data/

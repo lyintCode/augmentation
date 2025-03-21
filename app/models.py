@@ -9,7 +9,7 @@ class User(Base):
     """Модель пользователя"""
     __tablename__ = "users"
 
-    id = Column(String, primary_key=True, default=lambda: str(uuid4()))
+    id: str = Column(String, primary_key=True, default=lambda: str(uuid4()))
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     created_at = Column(DateTime, default=datetime.now())
