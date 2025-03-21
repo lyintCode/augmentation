@@ -8,23 +8,17 @@ wait_for_postgres() {
   done
 }
 
-# Ждем полной инициализации postgresql
+# Ожидание полной инициализации postgresql
 wait_for_postgres
 
-# Применяем миграции Alembic
-alembic upgrade head
-
-if [ "$RUN_TESTS" = "true" ]; then
-  echo "Запускаем тесты..."
-
-  # Запуск pytest и проверка статуса выполнения
-  if pytest; then
-    echo -e "\e[32mВсе тесты прошли успешно!\e[0m"
-  else
-    echo -e "\e[31m\nОшибки при выполнении тестов!\n\e[0m"
-  fi
-
+# Проверяем, есть ли миграции в папке versions
+if [ -z "$(ls -A /app/migrations/versions)" ]; then
+  # Генерируем начальную миграцию
+  alembic revision --autogenerate -m "Initial migration"
 fi
 
-# Запускаем приложение
+# Применение миграции Alembic
+alembic upgrade head
+
+# Запуск приложения
 exec "$@"

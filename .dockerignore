@@ -22,10 +22,16 @@ Dockerfile
 .dockerignore
 docker-compose.yml
 
+# Alembic migrations
+/migrations/versions/*
+
 # Pytest
 .pytest_cache/
 test.db
 tests/
 
+# Mypy
+.mypy_cache/
+
 # Minio
-.minio_data/
+minio_data/

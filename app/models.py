@@ -1,9 +1,10 @@
-from sqlalchemy import Column, String, DateTime, ForeignKey, Boolean
-from sqlalchemy.orm import relationship
 from uuid import uuid4
 from datetime import datetime
 
-from app.database import Base
+from sqlalchemy import Column, String, DateTime, ForeignKey, Boolean
+from sqlalchemy.orm import relationship, declarative_base
+
+Base = declarative_base()
 
 class User(Base):
     """Модель пользователя"""

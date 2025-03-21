@@ -10,15 +10,18 @@
 # Env files
 .env
 
-# Migrations
-migrations/versions/
+# Alembic migrations
+/migrations/versions/*
 
 # Pytest
-.pytest_cache/
-htmlcov/
-.coverage
+/.pytest_cache/
+/htmlcov/
+/.coverage
 test.db
-tests/results/
+/tests/results/
+
+# Mypy
+/.mypy_cache/
 
 # Minio
-.minio_data/
+/minio_data/

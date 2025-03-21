@@ -9,3 +9,5 @@ ENV PATH="/home/appuser/venv/bin:$PATH"
 
 # Запускаем контейнер от обычного пользователя
 USER appuser
+
+ENTRYPOINT []

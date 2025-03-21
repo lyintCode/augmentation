@@ -14,7 +14,6 @@ class Settings(BaseSettings):
     MINIO_PASSWORD: str
     MINIO_BUCKET_NAME: str
     CELERY_BROKER_URL: str
-    RUN_TESTS: str
 
     model_config = SettingsConfigDict(env_file=".env")
 

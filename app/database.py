@@ -1,5 +1,4 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 from app.config import settings
 
@@ -8,9 +7,6 @@ engine = create_engine(settings.DATABASE_URL)
 
 # Фабрика сессий
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-# Базовый класс для моделей
-Base = declarative_base()
 
 # Предоставляет сессию базы данных
 def get_db():
