@@ -50,6 +50,9 @@ if [ -z "$TASK_ID" ]; then
 fi
 echo -e "Идентификатор задачи: $TASK_ID\n"
 
+echo "Ожидание 2 сек для окончния задачи celery ..."
+sleep 2
+
 echo "4. Проверка статуса задачи..."
 STATUS_RESPONSE=$(curl -s -X POST "$BASE_URL/status/$TASK_ID" \
     -H "Authorization: Bearer $ACCESS_TOKEN")
