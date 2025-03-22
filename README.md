@@ -38,7 +38,7 @@ git clone https://github.com/lyintCode/augmentation.git
 
 ```
 
-Далее либо запустите install.sh (только для debian), либо установите docker и docker-compose вручную,  
+Далее либо запустите install.sh (Debian/Ubuntu | CentOS/RHEL/Fedora), либо установите docker и docker-compose вручную,  
 согласно инструкциям на оффициальных сайтах.
 
 ```bash
@@ -64,13 +64,13 @@ cp .env.example .env
 Далее разворачиваем контейнеры
 
 ```bash
-# запуск в терминале
+# Запуск в терминале
 docker-compose up --build
 
-# запуск в режиме демона
+# ИЛИ запуск в режиме демона
 docker-compose up -d --build
 
-# Остановка контейнеров
+# Команда для остановки контейнеров
 docker-compose down
 ```
 
