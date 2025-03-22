@@ -95,12 +95,12 @@ def download_task_images(
     task_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
-) -> Response | HTTPException:
+) -> Response:
     """Скачать изображения по ID задачи в виде zip-архива"""
 
     task = get_image_task(db, task_id=task_id)
     if not task or task.user_id != current_user.id:
-        return HTTPException(status_code=404, detail='Задача не найдена')
+        raise HTTPException(status_code=404, detail='Задача не найдена')
     
     # Создание временного zip
     with NamedTemporaryFile(suffix='.zip', delete=True) as temp_zip:
