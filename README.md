@@ -110,7 +110,7 @@ pip install -r requirements.txt
 pytest
 ```
 
-Так же можно запустить mypy, для проверки типизации
+Так же можно запустить mypy для проверки типизации
 ```bash
 mypy .
 ```
