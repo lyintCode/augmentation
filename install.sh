@@ -31,20 +31,30 @@ if [ "$OS" == "debian" ] || [ "$OS" == "ubuntu" ]; then
     echo -e "\e[42m\e[97m Установка Docker \e[0m"
     sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io
 
-elif [ "$OS" == "centos" ] || [ "$OS" == "rhel" ]; then
-    echo -e "\e[42m\e[97m Обнаружена система: CentOS/RHEL \e[0m"
+elif [ "$OS" == "centos" ] || [ "$OS" == "rhel" ] || [ "$OS" == "fedora" ]; then
+    echo -e "\e[42m\e[97m Обнаружена система: CentOS/RHEL/Fedora \e[0m"
 
-    echo -e "\e[42m\e[97m Установка зависимостей для работы приложения \e[0m"
-    sudo yum install -y epel-release
-    sudo yum install -y jq python3-pip python3-virtualenv python3-devel curl
+    if [ "$OS" == "fedora" ]; then
+        echo -e "\e[42m\e[97m Установка зависимостей для работы приложения \e[0m"
+        sudo dnf install -y jq python3-pip python3-virtualenv python3-devel curl
 
-    echo -e "\e[42m\e[97m Установка Docker \e[0m"
-    sudo yum install -y yum-utils
-    sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-    sudo yum install -y docker-ce docker-ce-cli containerd.io
+        echo -e "\e[42m\e[97m Установка Docker \e[0m"
+        sudo dnf install -y dnf-plugins-core
+        sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+        sudo dnf install -y docker-ce docker-ce-cli containerd.io
+    else
+        echo -e "\e[42m\e[97m Установка зависимостей для работы приложения \e[0m"
+        sudo yum install -y epel-release
+        sudo yum install -y jq python3-pip python3-virtualenv python3-devel curl
+
+        echo -e "\e[42m\e[97m Установка Docker \e[0m"
+        sudo yum install -y yum-utils
+        sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+        sudo yum install -y docker-ce docker-ce-cli containerd.io
+    fi
 
 else
-    echo -e "\e[41m\e[97m Неизвестная операционная система. Поддерживаемые системы: Debian/Ubuntu и CentOS/RHEL \e[0m"
+    echo -e "\e[41m\e[97m Неизвестная операционная система. Поддерживаемые системы: Debian/Ubuntu, CentOS/RHEL и Fedora \e[0m"
     exit 1
 fi
 
