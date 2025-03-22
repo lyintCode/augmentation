@@ -40,7 +40,7 @@ git clone https://github.com/lyintCode/augmentation.git
 
 ```
 
-Далее либо запустите install.sh (Debian/Ubuntu | CentOS/RHEL/Fedora), либо установите docker и docker-compose вручную,  
+Далее либо запустите install.sh (Debian/Ubuntu | CentOS/RHEL/Fedora), либо установите docker и docker-compose вручную,
 согласно инструкциям на оффициальных сайтах.
 
 ```bash
@@ -48,7 +48,8 @@ chmod +x install.sh
 ./install.sh
 ```
 
-Если установка docker происходит впервые, то необходимо добавить пользователя в группу `docker` и перезапустить терминал (или прописать команду newgrp)
+Если установка docker происходит впервые, то необходимо добавить пользователя в группу `docker` и перезапустить терминал
+ (или прописать команду newgrp)
 ```bash
 sudo usermod -aG docker $USER
 
