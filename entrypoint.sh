@@ -11,6 +11,9 @@ wait_for_postgres() {
 
 wait_for_postgres
 
+# Создаем папку versions
+mkdir -p /app/migrations/versions
+
 # Проверяем, есть ли миграции в папке versions
 if [ -z "$(ls -A /app/migrations/versions)" ]; then
   # Генерируем начальную миграцию
