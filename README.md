@@ -23,7 +23,7 @@ API для сервиса аугментации изображений
 - **Backend**: FastAPI + ORM SQLAlchemy
 - **База данных**: PostgreSQL
 - **Фоновые задачи**: Celery + Redis
-- **Контейнеризация**: Docker
+- **Контейнеризация**: Docker + docker-compose
 - **Миграции**: Alembic
 - **S3 хранилище**: Minio
 
