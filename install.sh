@@ -24,8 +24,6 @@ echo -e "\e[42m\e[97m Добавление $USER в группу docker \e[0m"
 sudo usermod -aG docker $USER 
 echo -e "\n\nПожалуйста, выполните 'newgrp docker' вручную или перезапустите терминал\n\n"
 
-# ОБРЫВАЕТСЯ ЗДЕСЬ
-
 echo -e "\e[42m\e[97m Скачивание docker compose \e[0m"
 sudo curl -L "https://github.com/docker/compose/releases/download/v2.32.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && echo "OK"
 sudo chmod +x /usr/local/bin/docker-compose
