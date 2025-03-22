@@ -28,5 +28,5 @@ echo -e "\e[42m\e[97m Скачивание docker compose \e[0m"
 sudo curl -L "https://github.com/docker/compose/releases/download/v2.32.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && echo "OK"
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
-docker completion bash | sudo tee /etc/bash_completion.d/docker-compose
-source /etc/bash_completion.d/docker-compose
+
+echo -e "\n\e[42m\e[97m ===Установка завершена=== \e[0m"
