@@ -22,7 +22,7 @@ from app.crud import (
 from app.database import get_db
 from app.schemas import TaskResponse, UploadResponse
 from app.auth import get_current_user
-from app.models import User
+from app.models import User, ImageTask
 from app.utils import (
     download_file_from_minio, 
     validate_file_extension, 
@@ -41,6 +41,9 @@ def upload_image(
 
     task_ids = []
     for file in files:
+        if file.filename is None:
+            raise HTTPException(status_code=400, detail="Ошибка получения имени файла")
+        
         # Проверяем расширение файла
         validate_file_extension(file.filename)
 
@@ -55,14 +58,14 @@ def upload_image(
 
         task_ids.append(task_id)
 
-    return {'message': 'Задача создана', 'task_ids': task_ids}
+    return UploadResponse(message="Задача создана", task_ids=task_ids)
 
 @router.post('/status/{task_id}', response_model=TaskResponse)
 def get_task_status(
     task_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
-) -> TaskResponse:
+) -> ImageTask:
     """Получить статус выполнения задачи по ID"""
 
     task = get_image_task(db, task_id=task_id)
@@ -77,7 +80,7 @@ def get_user_history(
     user_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
-) -> List[TaskResponse]:
+) -> List[ImageTask]:
     """Получить историю обработанных изображений для данного user_id"""
 
     if user_id != current_user.id:
@@ -92,7 +95,7 @@ def download_task_images(
     task_id: str,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
-) -> Response:
+) -> Response | HTTPException:
     """Скачать изображения по ID задачи в виде zip-архива"""
 
     task = get_image_task(db, task_id=task_id)
@@ -109,6 +112,9 @@ def download_task_images(
 
             # Скачиваем трансформированные файлы с минио
             for suffix in ['original', 'rotated', 'gray', 'scaled']:
+                # mypy ругался на то, что ext может быть bytes
+                if isinstance(ext, bytes):
+                    ext = ext.decode('utf-8')
                 file_name = f'{task_id}_{suffix}{ext}'
                 try:
                     data = download_file_from_minio(file_name)
@@ -126,8 +132,3 @@ def download_task_images(
     response.headers['Content-Disposition'] = f'attachment; filename={task_id}.zip'
 
     return response
-
-
-
-
-

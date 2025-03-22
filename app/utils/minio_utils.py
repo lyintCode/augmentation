@@ -1,4 +1,5 @@
-from fastapi import HTTPException, File
+from io import BytesIO
+from fastapi import HTTPException
 from minio import Minio
 from minio.error import S3Error
 
@@ -17,7 +18,7 @@ minio_client = Minio(
     secure=False
 )
 
-def upload_to_minio(file_content: File, file_name: str) -> str:
+def upload_to_minio(file_content: BytesIO, file_name: str) -> str:
     """Загрузка файла в Minio"""
     try:
         
@@ -26,7 +27,7 @@ def upload_to_minio(file_content: File, file_name: str) -> str:
             minio_client.make_bucket(BUCKET_NAME)
             
         # Проверяем, что file_content не пустой
-        if not file_content or file_content.getbuffer().nbytes == 0:
+        if file_content.getbuffer().nbytes == 0:
             raise ValueError('Файл пустой')
 
         # Загружаем файл

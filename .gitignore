@@ -4,6 +4,9 @@
 **/*.pyd
 **/__pycache__/
 
+# log files
+*.log
+
 # Virtual Environments
 .venv/
 

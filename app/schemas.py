@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel, EmailStr, Field
 
@@ -15,11 +15,11 @@ class UserCreate(BaseModel):
         min_length=8,
         json_schema_extra={'example': 'Минимум 8 символов'}
     )
-    first_name: str = Field(
+    first_name: Optional[str] = Field(
         None,
         json_schema_extra={'example': 'Иван'}
     )
-    last_name: str = Field(
+    last_name: Optional[str] = Field(
         None,
         json_schema_extra={'example': 'Иванов'}
     )

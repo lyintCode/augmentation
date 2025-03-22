@@ -76,11 +76,16 @@ env.py файл в папке migrations уже создан и заполнен
 Для запуска тестов необходимо развернуть виртуальное окружение
 
 ```bash
+# Должен быть установлен пакет python3-venv
 python3 -m venv .venv
 source .venv/bin/activate
+
+# Устанавливаем зависимости
+pip install --upgrade pip
+pip install -r requirements.txt
 ```
 
-И запустить тесты
+Запуск тестов
 ```bash
 pytest
 ```
@@ -88,9 +93,5 @@ pytest
 Так же можно запустить mypy, для проверки типизации
 ```bash
 mypy .
-```
-или
-```bash
-mypy app
 ```
 

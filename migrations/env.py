@@ -1,5 +1,6 @@
 import os
 from logging.config import fileConfig
+from typing import cast
 
 from sqlalchemy import create_engine, pool
 from alembic import context
@@ -11,7 +12,7 @@ from app.models import Base
 load_dotenv()
 
 # URL для подключения к базе данных
-DB_URL = os.getenv('DATABASE_URL')
+DB_URL = cast(str, os.getenv('DATABASE_URL'))
 if not DB_URL:
     raise ValueError("DATABASE_URL не задан в .env файле!")
 

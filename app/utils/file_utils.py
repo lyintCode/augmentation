@@ -41,7 +41,7 @@ def process_image(image_content: bytes, suffix: str, original_filename: str) -> 
         raise ValueError('Image content is empty.')
 
     try:
-        image = Image.open(BytesIO(image_content))
+        image: Image.Image = Image.open(BytesIO(image_content))
 
         if suffix == 'rotated':
             # Поворот на 90 градусов
@@ -59,8 +59,6 @@ def process_image(image_content: bytes, suffix: str, original_filename: str) -> 
             resampling_filter = getattr(Image, 'Resampling', None)
             if resampling_filter:
                 resampling_filter = resampling_filter.LANCZOS
-            else:
-                resampling_filter = Image.ANTIALIAS
 
             image = image.resize(new_size, resampling_filter)
 

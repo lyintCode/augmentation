@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional, List
 
 from sqlalchemy.orm import Session
 from app.models import ImageTask
@@ -19,11 +20,11 @@ def create_image_task(db: Session, task_id: str, img_link: str, user_id: str) ->
 
     return db_task
 
-def get_image_task(db: Session, task_id: str) -> ImageTask:
+def get_image_task(db: Session, task_id: str) -> Optional[ImageTask]:
     """Получить задачу по id"""
     return db.query(ImageTask).filter(ImageTask.task_id == task_id).first()
 
-def get_image_tasks_by_user(db: Session, user_id: str) -> ImageTask:
+def get_image_tasks_by_user(db: Session, user_id: str) -> List[ImageTask]:
     """Получить все задачи пользователя"""
     return db.query(ImageTask).filter(ImageTask.user_id == user_id).all()
 

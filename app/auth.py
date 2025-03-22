@@ -5,6 +5,7 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException, status
+from fastapi.security import HTTPAuthorizationCredentials
 
 from app.models import User
 from app.config import settings
@@ -35,7 +36,7 @@ def authenticate_user(db: Session, email: str, password: str) -> User:
     """Аутентификация пользователя"""
     user = get_user_by_email(db, email)
 
-    if not user or not verify_password(password, user.hashed_password):
+    if not user or not user.hashed_password or not verify_password(password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail='Неверный логин/пароль',
@@ -51,7 +52,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_current_user(
-    token: str = Depends(bearer_scheme),
+    token: HTTPAuthorizationCredentials = Depends(bearer_scheme),
     db: Session = Depends(get_db)
 ) -> Optional[User]:
     """Проверка JWT-токена и получение текущего пользователя"""
@@ -64,9 +65,9 @@ def get_current_user(
     try:
         # Декодируем токен
         payload = jwt.decode(token.credentials, settings.SECRET_KEY, algorithms=[settings.SIGNATURE_ALGORITHM])
-        email: str = payload.get('sub')
+        email: str | None = payload.get('sub')
         if email is None:
-            raise credentials_exception
+            raise ValueError('Ключ "sub" отсутсвует в JWT payload.')
     except JWTError:
         raise credentials_exception
 
